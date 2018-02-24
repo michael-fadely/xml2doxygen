@@ -1,0 +1,9 @@
+{
+	"name": "xml2doxygen",
+	"authors": [
+		"Michael Fadely"
+	],
+	"description": "Converts Visual Studio XML code documentation to Doxygen format.",
+	"copyright": "Copyright © 2018, Michael Fadely",
+	"license": "MIT"
+}

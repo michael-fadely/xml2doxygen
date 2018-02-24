@@ -1,0 +1,17 @@
+.dub
+docs.json
+__dummy.html
+docs/
+xmldoctodoxygen.so
+xmldoctodoxygen.dylib
+xmldoctodoxygen.dll
+xmldoctodoxygen.a
+xmldoctodoxygen.lib
+xmldoctodoxygen-test-*
+*.exe
+*.o
+*.obj
+*.lst
+/.vs/xmldoctodoxygen/v15
+*.sln
+/dub.selections.json
