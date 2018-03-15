@@ -127,6 +127,11 @@ string[] parse(string[] docLines)
 				p.parse();
 			};
 
+			parser.onStartTag["see"] = (ElementParser p)
+			{
+				builder.put(`\sa ` ~ p.tag.attr["cref"]);
+			};
+
 			parser.onText = (string s)
 			{
 				builder.put(s);
@@ -157,6 +162,17 @@ string[] parse(string[] docLines)
 	{
 		mixin innerParser;
 		builder.put(`\param ` ~ p.tag.attr["name"] ~ ` `);
+
+		innerParserInit(p);
+		p.parse();
+
+		result.put(builder.data.lineSplitter.map!((string s) => lineStart ~ s));
+	};
+
+	doc.onStartTag["seealso"] = (ElementParser p)
+	{
+		mixin innerParser;
+		builder.put(`\sa ` ~ p.tag.attr["cref"]);
 
 		innerParserInit(p);
 		p.parse();
