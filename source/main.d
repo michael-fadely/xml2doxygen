@@ -127,7 +127,7 @@ string[] parse(string[] docLines)
 				p.parse();
 			};
 
-			e.onText = (string s)
+			parser.onText = (string s)
 			{
 				builder.put(s);
 			};
@@ -137,13 +137,13 @@ string[] parse(string[] docLines)
 	/// ditto
 	template outerParser(string prefix)
 	{
-		alias outerParser = (ElementParser e)
+		alias outerParser = (ElementParser p)
 		{
 			mixin innerParser;
 			builder.put(prefix);
 
-			innerParserInit(e);
-			e.parse();
+			innerParserInit(p);
+			p.parse();
 
 			result.put(builder.data.lineSplitter.map!((string s) => lineStart ~ s));
 		};
@@ -152,6 +152,17 @@ string[] parse(string[] docLines)
 	doc.onStartTag["summary"] = outerParser!(`\brief `);
 	doc.onStartTag["returns"] = outerParser!(`\return `);
 	doc.onStartTag["remarks"] = outerParser!(`\remarks `);
+
+	doc.onStartTag["param"] = (ElementParser p)
+	{
+		mixin innerParser;
+		builder.put(`\param ` ~ p.tag.attr["name"] ~ ` `);
+
+		innerParserInit(p);
+		p.parse();
+
+		result.put(builder.data.lineSplitter.map!((string s) => lineStart ~ s));
+	};
 
 	doc.parse();
 
